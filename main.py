@@ -5,11 +5,15 @@ import pygame
 import random
 
 class vector:
-    def __init__(self,_x,_y,_dirx,_diry):
+    def __init__(self,_x,_y,rad):
         self.x = _x
         self.y = _y
-        self.dirx = _dirx
-        self.diry = _diry
+        self.dirx = math.cos(rad)
+        self.diry = math.sin(rad)
+    def DegreeToRad(self,angle):
+        rad = angle * (math.pi/100)
+        self.dirx = math.cos(rad)
+        self.diry = math.sin(rad)
     def DrawVector(self,screen,k) -> None:
         pygame.draw.line(screen,(0,255,0),(self.x,self.y),(self.x+self.dirx*k,self.y+(self.diry*k)))
     def lenWithK(self,k):
@@ -68,15 +72,9 @@ clock = pygame.time.Clock()
 mousePos = pygame.mouse.get_pos()
 
 rays = []
-rays.append(vector(160,150,-1,0))
-rays.append(vector(160,150,-1,1))
-rays.append(vector(160,150,-1,-1))
-rays.append(vector(160,150,0,0))
-rays.append(vector(160,150,0,1))
-rays.append(vector(160,150,0,-1))
-rays.append(vector(160,150,1,0))
-rays.append(vector(160,150,1,1))
-rays.append(vector(160,150,1,-1))
+for i in range(0,360,1):
+    rays.append(vector(150,150,i * (math.pi/100)))
+
 
 walls = []
 #b1 = boundarie(300,100,300,200)
@@ -88,7 +86,8 @@ for i in range(4):
 distmin = 9999
 
 while running:
-    clock.tick(60)
+    #clock.tick(60)
+    #print(clock)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False   
